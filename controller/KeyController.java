@@ -17,16 +17,17 @@ public class KeyController implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
+        var eventQueue = gameBoard.getTimerListener().getEventQueue();
 
         switch(keyCode){
             case KeyEvent.VK_LEFT:
-                System.out.println("left key");
+                eventQueue.add(TimerListener.EventType.KEY_LEFT);
                 break;
             case KeyEvent.VK_RIGHT:
-                System.out.println("right key");
+                eventQueue.add(TimerListener.EventType.KEY_RIGHT);
                 break;
             case KeyEvent.VK_SPACE:
-                System.out.println("space key");
+                eventQueue.add(TimerListener.EventType.KEY_SPACE);
                 break;
         }
     }
