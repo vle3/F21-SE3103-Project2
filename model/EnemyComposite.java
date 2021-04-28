@@ -16,6 +16,7 @@ public class EnemyComposite extends GameElement{
 
     private ArrayList<ArrayList<GameElement>> rows;
     private ArrayList<GameElement> bombs;
+    private int gameScore = 0 ;
     private boolean movingToRight = true;
     private Random random = new Random();
 
@@ -50,10 +51,17 @@ public class EnemyComposite extends GameElement{
     @Override
     public void animate() {
         int dx = UNIT_MOVE ;
+        int dy = ENEMY_SIZE;
         if(movingToRight){
             if(rightEnd() >= GameBoard.WIDTH){
                 dx = -dx;
                 movingToRight = false;
+                for(var row: rows)
+                {
+                    for(var e: row){
+                        e.y += dy;
+                    }
+                }
             }
         }
         else{
@@ -61,6 +69,12 @@ public class EnemyComposite extends GameElement{
             if(leftEnd() <= 0){
                 dx = -dx;
                 movingToRight = true;
+                for(var row: rows)
+                {
+                    for(var e: row){
+                        e.y += dy;
+                    }
+                }
             }
         }
 
@@ -71,7 +85,6 @@ public class EnemyComposite extends GameElement{
             }
         }
 
-        // animate bombs
         for(var b: bombs){
             b.animate();
         }
@@ -129,6 +142,8 @@ public class EnemyComposite extends GameElement{
                     if(enemy.collideWith(bullet)){
                         removeBullets.add(bullet);
                         removeEnemies.add(enemy);
+                        gameScore += 10 ;
+                        System.out.println(gameScore);
                     }
                 }
             }
@@ -152,5 +167,22 @@ public class EnemyComposite extends GameElement{
 
         shooter.getWeapons().removeAll(removeBullets);
         bombs.removeAll(removeBombs);
+
+        //bombs vs shooter 
+        var removeShooter = new ArrayList<GameElement>();
+        for(var b: bombs){
+            for(var c: shooter.getComponents()){
+                if(b.collideWith(c)){
+                    removeBombs.add(b);
+                    removeShooter.add(c);
+                }
+            }
+        }
+        shooter.getComponents().removeAll(removeShooter);
+        bombs.removeAll(removeBombs);
+
+    }
+    public int getGameScore() {
+        return gameScore;
     }
 }

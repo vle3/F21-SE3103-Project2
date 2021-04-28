@@ -75,5 +75,8 @@ public class Shooter extends GameElement {
             w.animate();
         }
     }
+    public ArrayList<GameElement> getComponents() {
+        return components;
+    }
     
 }
