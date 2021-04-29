@@ -4,12 +4,26 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import model.strategyPattern.ShooterMoveStrategy;
+import model.strategyPattern.ShooterRenderStrategy;
+
 public class Shooter extends GameElement {
     public static final int UNIT_MOVE = 10;
     public static final int MAX_BULLET = 3;
 
     private ArrayList<GameElement> components = new ArrayList<>();
     private ArrayList<GameElement> weapons = new ArrayList<>();
+
+    private ShooterMoveStrategy moveStrategy;
+    private ShooterRenderStrategy renderStrategy;
+
+    public enum Direction{
+        LEFT, RIGHT, UP, DOWN;
+    }
+
+    public enum Even{
+        BombHit, EnemyTouch;
+    }
 
     public Shooter(int x , int y)
     {
@@ -78,5 +92,10 @@ public class Shooter extends GameElement {
     public ArrayList<GameElement> getComponents() {
         return components;
     }
-    
+    public void setMoveStrategy(ShooterMoveStrategy moveStrategy) {
+        this.moveStrategy = moveStrategy;
+    }
+    public void setRenderStrategy(ShooterRenderStrategy renderStrategy) {
+        this.renderStrategy = renderStrategy;
+    }
 }

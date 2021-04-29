@@ -2,7 +2,9 @@ package view;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.Timer;
 
 import controller.KeyController;
@@ -29,6 +31,8 @@ public class GameBoard {
     private EnemyComposite enemyComposite;
     private Timer timer;
     private TimerListener timerListener;
+    private JLabel scoreDisplay = new JLabel();
+    private int score;
 
     public GameBoard(JFrame window)
     {
@@ -47,6 +51,7 @@ public class GameBoard {
 
         JButton startButton = new JButton("Start");
         JButton quitButton = new JButton("Quit");
+        
         startButton.setFocusable(false);
         quitButton.setFocusable(false);
 
@@ -54,6 +59,13 @@ public class GameBoard {
         southPanel.add(startButton);
         southPanel.add(quitButton);
         cp.add(BorderLayout.SOUTH, southPanel);
+
+        JPanel northPanel = new JPanel();
+        JLabel label = new JLabel("Score: ");
+        northPanel.add(label);
+        scoreDisplay.setText("" + score);
+        northPanel.add(scoreDisplay);
+        cp.add(BorderLayout.NORTH, northPanel);
 
         canvas.getGameElements().add(new TextDraw("Click <Start> to Play", 100 , 100 , Color.yellow, 30));
 
@@ -68,6 +80,13 @@ public class GameBoard {
             canvas.getGameElements().add(enemyComposite);
             timer.start();
         });
+        
+        
+        // if(enemyComposite.getRows().isEmpty()){
+        //     timer.stop();
+        //     canvas.getGameElements().add(new TextDraw("You Win\n" + "Score: " + enemyComposite.getGameScore()
+        //     , 100, 100, Color.YELLOW, 30));
+        // }
 
         quitButton.addActionListener(event -> System.exit(0));
     }
@@ -86,6 +105,18 @@ public class GameBoard {
     }
     public EnemyComposite getEnemyComposite() {
         return enemyComposite;
+    }
+    public JFrame getWindow() {
+        return window;
+    }
+    public void setScore(int score) {
+        this.score = score;
+    }
+    public int getScore() {
+        return score;
+    }
+    public JLabel getScoreDisplay() {
+        return scoreDisplay;
     }
 
 }

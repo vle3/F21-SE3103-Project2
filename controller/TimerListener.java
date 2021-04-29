@@ -3,10 +3,14 @@ package controller;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import javax.swing.JTextArea;
+
 import model.Bullet;
 import model.Shooter;
 import view.GameBoard;
+import view.TextDraw;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 public class TimerListener implements ActionListener{
@@ -18,6 +22,7 @@ public class TimerListener implements ActionListener{
     private LinkedList<EventType> eventQueue;
     private final int BOMB_DROP_FREQ = 20;
     private int frameCounter = 0;
+    private int score = 0;
 
     public TimerListener(GameBoard gameBoard)
     {
@@ -32,6 +37,7 @@ public class TimerListener implements ActionListener{
         processEventQueue();
         processCollision();
         gameBoard.getCanvas().repaint();
+        // gameBoard.getCanvas().getGameElements().add(new TextDraw("Score: " + score , 200, 300 , Color.yellow, 30));
     }
 
     private void processEventQueue()
@@ -62,6 +68,14 @@ public class TimerListener implements ActionListener{
         }
     }
 
+    private void detectCollision()
+    {
+        var figures = gameBoard.getCanvas().getGameElements();
+
+        
+    }
+
+
     private void processCollision()
     {
         var shooter = gameBoard.getShooter();
@@ -81,6 +95,9 @@ public class TimerListener implements ActionListener{
 
     public LinkedList<EventType> getEventQueue() {
         return eventQueue;
+    }
+    public int getScore() {
+        return score;
     }
     
 }

@@ -131,6 +131,7 @@ public class EnemyComposite extends GameElement{
         bombs.removeAll(remove);
     }
 
+
     public void processCollision(Shooter shooter){
         var removeBullets = new ArrayList<GameElement>();
 
@@ -142,8 +143,7 @@ public class EnemyComposite extends GameElement{
                     if(enemy.collideWith(bullet)){
                         removeBullets.add(bullet);
                         removeEnemies.add(enemy);
-                        gameScore += 10 ;
-                        System.out.println(gameScore);
+                        
                     }
                 }
             }
@@ -184,5 +184,9 @@ public class EnemyComposite extends GameElement{
     }
     public int getGameScore() {
         return gameScore;
+    }
+
+    public ArrayList<ArrayList<GameElement>> getRows() {
+        return rows;
     }
 }
