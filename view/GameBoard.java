@@ -12,6 +12,7 @@ import controller.TimerListener;
 import model.EnemyComposite;
 import model.Shooter;
 import model.ShooterElement;
+import model.observerPattern.ShooterObserver;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,6 +22,7 @@ import java.awt.Container;
 public class GameBoard {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 300;
+    public static final int CELL_SIZE = 20;
     
     public static final int FPS = 20;
     public static final int DELAY = 1000 / FPS;
@@ -64,6 +66,8 @@ public class GameBoard {
         JLabel label = new JLabel("Score: ");
         northPanel.add(label);
         scoreDisplay.setText("" + score);
+        scoreDisplay.setFocusable(false);
+        label.setFocusable(false);
         northPanel.add(scoreDisplay);
         cp.add(BorderLayout.NORTH, northPanel);
 
@@ -71,15 +75,19 @@ public class GameBoard {
 
         timerListener = new TimerListener(this);
         timer = new Timer(DELAY, timerListener);
-
+        
+        enemyComposite = new EnemyComposite();
+        ShooterObserver observers = new ShooterObserver(this);
+        enemyComposite.addListener(observers);
         startButton.addActionListener(event -> {
             shooter = new Shooter(GameBoard.WIDTH / 2, GameBoard.HEIGHT - ShooterElement.SIZE );
-            enemyComposite = new EnemyComposite();
+           
             canvas.getGameElements().clear();
             canvas.getGameElements().add(shooter);
             canvas.getGameElements().add(enemyComposite);
             timer.start();
         });
+        
         
         
         // if(enemyComposite.getRows().isEmpty()){

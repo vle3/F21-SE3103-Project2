@@ -5,14 +5,27 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.observerPattern.Observer;
+import model.observerPattern.ShooterObserver;
+import model.observerPattern.Subject;
+import model.strategyPattern.ShooterMoveStrategy;
+import model.strategyPattern.ShooterRenderStrategy;
 import view.GameBoard;
 
-public class EnemyComposite extends GameElement{
+public class EnemyComposite extends GameElement implements Subject{
 
     public static final int NROWS = 2;
     public static final int NCOLS = 10;
     public static final int ENEMY_SIZE = 20;
     public static final int UNIT_MOVE = 5;
+
+    public enum Event{
+        BulletHit, ReachBottom, TouchShooter, AllDestroyed, ShooterDestroyed, BombHitShooter;
+    }
+    private ArrayList<Observer> observers = new ArrayList<>();
+
+    private ShooterMoveStrategy moveStrategy;
+    private ShooterRenderStrategy renderStrategy;
 
     private ArrayList<ArrayList<GameElement>> rows;
     private ArrayList<GameElement> bombs;
@@ -143,7 +156,8 @@ public class EnemyComposite extends GameElement{
                     if(enemy.collideWith(bullet)){
                         removeBullets.add(bullet);
                         removeEnemies.add(enemy);
-                        
+                        notifyObserver(Event.BulletHit);
+                        System.out.println(row.size());
                     }
                 }
             }
@@ -175,12 +189,35 @@ public class EnemyComposite extends GameElement{
                 if(b.collideWith(c)){
                     removeBombs.add(b);
                     removeShooter.add(c);
+                    notifyObserver(Event.BombHitShooter);
                 }
             }
+        }
+        if(shooter.getComponents().size() == 0)
+        {
+            notifyObserver(Event.ShooterDestroyed);
         }
         shooter.getComponents().removeAll(removeShooter);
         bombs.removeAll(removeBombs);
 
+        //enemy touch shooter
+        for(var row: rows)
+        {
+            for(var enemy: row)
+            {
+                if(enemy.collideWith(shooter))
+                {
+                    notifyObserver(Event.TouchShooter);
+                }
+                if(enemy.y >= 300){
+                    notifyObserver(Event.ReachBottom);
+                }
+            }            
+        }
+
+        //all enemy destroy
+        if(rows.get(0).size() == 0 && rows.get(1).size() == 0) notifyObserver(Event.AllDestroyed);
+        
     }
     public int getGameScore() {
         return gameScore;
@@ -188,5 +225,68 @@ public class EnemyComposite extends GameElement{
 
     public ArrayList<ArrayList<GameElement>> getRows() {
         return rows;
+    } 
+  
+    @Override
+    public void addListener(Observer o) {
+        observers.add(o);
+    } 
+
+    @Override
+    public void removeListener(Observer o) {
+        observers.remove(o);
     }
+
+    @Override
+    public void notifyObserver(Event event){
+        switch(event){
+            case BulletHit:
+                for(var o: observers){
+                    o.bulletHitEnemy();
+                }
+                break;
+            case ReachBottom:
+                for(var o: observers){
+                    o.enemyReachBottom();
+                }
+                break;
+            case TouchShooter:
+                for(var o: observers)
+                {
+                    o.enemyTouchShooter();
+                }
+                break;
+            case AllDestroyed:
+                for(var o: observers)
+                {
+                    o.allEnemyDestroy();
+                }
+                break;
+            case ShooterDestroyed:
+                for(var o: observers){
+                    o.shooterDestroyed();
+                }
+                break;
+            case BombHitShooter:
+                for(var o: observers)
+                {
+                    o.bombHitShooter();
+                }
+                break;
+        }
+    }
+
+  
+    @Override
+    public void notifyObserver(model.Shooter.Event event) {
+    }
+
+    public void setMoveStrategy(ShooterMoveStrategy moveStrategy) {
+        this.moveStrategy = moveStrategy;
+    }
+    public void setRenderStrategy(ShooterRenderStrategy renderStrategy) {
+        this.renderStrategy = renderStrategy;
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package model.strategyPattern;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import model.Shooter;
@@ -18,8 +19,8 @@ public class ShooterRenderAliveStrategy implements ShooterRenderStrategy{
         boolean filled = true;
         for(var s: composites)        
         {
+            s.color = Color.red;
             s.filled = filled;
-            filled = !filled;
             s.render(g2);
         }
     }

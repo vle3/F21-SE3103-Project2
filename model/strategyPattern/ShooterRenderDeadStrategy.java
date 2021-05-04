@@ -20,8 +20,8 @@ public class ShooterRenderDeadStrategy implements ShooterRenderStrategy {
         var composites = shooter.getComponents();
         for(var s: composites) 
         {
-            s.color = Color.red;
-            s.filled = false;
+            s.color = Color.gray;
+            s.filled = true;
             s.render(g2);
         }
     }

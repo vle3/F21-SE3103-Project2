@@ -6,4 +6,5 @@ public interface Observer {
     void bombHitShooter();
     void enemyReachBottom();
     void enemyTouchShooter();
+    void shooterDestroyed();
 }

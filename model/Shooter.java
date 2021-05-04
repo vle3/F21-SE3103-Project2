@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import model.strategyPattern.ShooterMoveAliveStrategy;
 import model.strategyPattern.ShooterMoveStrategy;
+import model.strategyPattern.ShooterRenderAliveStrategy;
 import model.strategyPattern.ShooterRenderStrategy;
 
 public class Shooter extends GameElement {
@@ -21,7 +23,7 @@ public class Shooter extends GameElement {
         LEFT, RIGHT, UP, DOWN;
     }
 
-    public enum Even{
+    public enum Event{
         BombHit, EnemyTouch;
     }
 
@@ -38,6 +40,8 @@ public class Shooter extends GameElement {
         components.add(s2);
         components.add(s3);
         components.add(s4);
+        moveStrategy = new ShooterMoveAliveStrategy(this);
+        renderStrategy = new ShooterRenderAliveStrategy(this);
     }
 
     public void moveRight()
@@ -89,6 +93,7 @@ public class Shooter extends GameElement {
             w.animate();
         }
     }
+
     public ArrayList<GameElement> getComponents() {
         return components;
     }

@@ -3,7 +3,9 @@ package model.observerPattern;
 import java.awt.Color;
 
 import model.Shooter;
+import model.strategyPattern.ShooterMoveAliveStrategy;
 import model.strategyPattern.ShooterMoveDeadStrategy;
+import model.strategyPattern.ShooterRenderAliveStrategy;
 import model.strategyPattern.ShooterRenderDeadStrategy;
 import view.GameBoard;
 import view.TextDraw;
@@ -19,26 +21,45 @@ public class ShooterObserver implements Observer{
 
     @Override
     public void allEnemyDestroy() {
-        //Win        
+        //Win
+        gameBoard.getCanvas().getGameElements().add(new TextDraw("You Won!, Your score: " + gameBoard.getScore() , 100, 200, Color.red, 30));
+        Shooter shooter = gameBoard.getShooter();
+        shooter.setMoveStrategy(new ShooterMoveAliveStrategy(shooter));
+        shooter.setRenderStrategy(new ShooterRenderAliveStrategy(shooter));
+        // gameBoard.getTimer().stop();
+        // gameBoard.getCanvas().repaint();     
+
     }
 
     @Override
     public void bombHitShooter() {
-        //let's do --10 per hit         
+        //let's do -20 per hit
+        int score = gameBoard.getScore();
+        score-=20;
+        gameBoard.setScore(score);    
+        gameBoard.getScoreDisplay().setText("" + score);         
     }
 
     @Override
     public void enemyReachBottom() {
-        //Game Over        
+        //Game Over
+        gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over, Your score: " + gameBoard.getScore() , 100, 200, Color.red, 30));
+        Shooter shooter = gameBoard.getShooter();
+        shooter.setMoveStrategy(new ShooterMoveDeadStrategy(shooter));
+        shooter.setRenderStrategy(new ShooterRenderDeadStrategy(shooter));
+        gameBoard.getTimer().stop();
+        gameBoard.getCanvas().repaint();        
     }
 
     @Override
     public void enemyTouchShooter() {
         // Game Over     
-        gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over", 100, 200, Color.red, 30));
+        gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over, Your score: " + gameBoard.getScore() , 100, 200, Color.red, 30));
         Shooter shooter = gameBoard.getShooter();
         shooter.setMoveStrategy(new ShooterMoveDeadStrategy(shooter));
         shooter.setRenderStrategy(new ShooterRenderDeadStrategy(shooter));
+        gameBoard.getTimer().stop();
+        gameBoard.getCanvas().repaint();
     }
 
 
@@ -46,10 +67,22 @@ public class ShooterObserver implements Observer{
     public void bulletHitEnemy() {
         //increase score by 10
         int score = gameBoard.getScore();
-        ++score;
+        score+=10;
         gameBoard.setScore(score);    
         gameBoard.getScoreDisplay().setText("" + score);
     
+    }
+
+
+    @Override
+    public void shooterDestroyed() {
+        //Game Over
+        gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over, Your score: " + gameBoard.getScore() , 100, 200, Color.red, 30));
+        Shooter shooter = gameBoard.getShooter();
+        shooter.setMoveStrategy(new ShooterMoveDeadStrategy(shooter));
+        shooter.setRenderStrategy(new ShooterRenderDeadStrategy(shooter));
+        gameBoard.getTimer().stop();
+        gameBoard.getCanvas().repaint();        
     }
 
 

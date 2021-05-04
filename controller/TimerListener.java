@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import javax.swing.JTextArea;
 
 import model.Bullet;
+import model.EnemyComposite;
 import model.Shooter;
 import view.GameBoard;
 import view.TextDraw;
@@ -68,12 +69,12 @@ public class TimerListener implements ActionListener{
         }
     }
 
-    private void detectCollision()
-    {
-        var figures = gameBoard.getCanvas().getGameElements();
-
+    // private void detectCollision()
+    // {
+    //     var figures = gameBoard.getCanvas().getGameElements();
         
-    }
+        
+    // }
 
 
     private void processCollision()
