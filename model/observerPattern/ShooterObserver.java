@@ -26,8 +26,8 @@ public class ShooterObserver implements Observer{
         Shooter shooter = gameBoard.getShooter();
         shooter.setMoveStrategy(new ShooterMoveAliveStrategy(shooter));
         shooter.setRenderStrategy(new ShooterRenderAliveStrategy(shooter));
-        // gameBoard.getTimer().stop();
-        // gameBoard.getCanvas().repaint();     
+        gameBoard.getTimer().stop();
+        gameBoard.getCanvas().repaint();     
 
     }
 
@@ -61,6 +61,7 @@ public class ShooterObserver implements Observer{
         // Game Over     
         gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over, Your score: " + gameBoard.getScore() , 100, 200, Color.red, 30));
         Shooter shooter = gameBoard.getShooter();
+        System.out.println(gameBoard.getCanvas().getGameElements().size());
         shooter.setMoveStrategy(new ShooterMoveDeadStrategy(shooter));
         shooter.setRenderStrategy(new ShooterRenderDeadStrategy(shooter));
         gameBoard.getTimer().stop();
@@ -84,10 +85,19 @@ public class ShooterObserver implements Observer{
         //Game Over
         gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over, Your score: " + gameBoard.getScore() , 100, 200, Color.red, 30));
         Shooter shooter = gameBoard.getShooter();
+        System.out.println("game Elm size: " + gameBoard.getCanvas().getGameElements().size());
+        System.out.println("/n");
+        System.out.println("Shooter :" + gameBoard.getShooter().getComponents().size());
         shooter.setMoveStrategy(new ShooterMoveDeadStrategy(shooter));
         shooter.setRenderStrategy(new ShooterRenderDeadStrategy(shooter));
         gameBoard.getTimer().stop();
         gameBoard.getCanvas().repaint();        
+    }
+
+
+    @Override
+    public void shooterWin() {
+        
     }
 
 

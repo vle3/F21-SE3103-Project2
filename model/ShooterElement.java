@@ -1,6 +1,9 @@
 package model;
 
 import java.awt.Graphics2D;
+
+import view.GameBoard;
+
 import java.awt.Color;
 
 public class ShooterElement extends GameElement {
@@ -26,7 +29,7 @@ public class ShooterElement extends GameElement {
     @Override
     public void animate() {
         // TODO Auto-generated method stub
-        
+       
     }
     
 }

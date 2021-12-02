@@ -7,4 +7,5 @@ public interface Observer {
     void enemyReachBottom();
     void enemyTouchShooter();
     void shooterDestroyed();
+    void shooterWin();
 }
