@@ -35,7 +35,12 @@ public class ShooterObserver implements Observer{
     public void bombHitShooter() {
         //let's do -20 per hit
         int score = gameBoard.getScore();
-        score-=20;
+        if(score > 10)
+        {score-=20;}
+        else if(score <= 10 )
+        {
+            score = 0;
+        }
         gameBoard.setScore(score);    
         gameBoard.getScoreDisplay().setText("" + score);         
     }
