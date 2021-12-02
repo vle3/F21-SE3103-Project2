@@ -8,6 +8,7 @@ import model.strategyPattern.ShooterMoveAliveStrategy;
 import model.strategyPattern.ShooterMoveStrategy;
 import model.strategyPattern.ShooterRenderAliveStrategy;
 import model.strategyPattern.ShooterRenderStrategy;
+import view.GameBoard;
 
 public class Shooter extends GameElement {
     public static final int UNIT_MOVE = 10;
@@ -44,20 +45,52 @@ public class Shooter extends GameElement {
         renderStrategy = new ShooterRenderAliveStrategy(this);
     }
 
+    // public void init()
+    // {
+    //     var size = ShooterElement.SIZE;
+    //     var s1 = new ShooterElement(x-size, y-size, Color.white, false);
+    //     var s2 = new ShooterElement(x, y-size, Color.white, false);
+    //     var s3 = new ShooterElement(x-size, y, Color.white, false);
+    //     var s4 = new ShooterElement(x, y, Color.white, false);
+    //     components.add(s1);
+    //     components.add(s2);
+    //     components.add(s3);
+    //     components.add(s4);
+    //     moveStrategy = new ShooterMoveAliveStrategy(this);
+    //     renderStrategy = new ShooterRenderAliveStrategy(this);
+    // }
     public void moveRight()
     {
         super.x += UNIT_MOVE;
+        if(super.x > GameBoard.WIDTH)
+        {
+            super.x = 0 + ShooterElement.SIZE;
+        }
         for(var c: components){
             c.x += UNIT_MOVE;
-        }
+            if(c.x > GameBoard.WIDTH)
+            {
+                c.x = 0 + ShooterElement.SIZE;
+            }
+        } 
+        
     }
 
     public void moveLeft()
     {
         super.x -= UNIT_MOVE;
+        if(super.x < 0)
+        {
+            super.x = GameBoard.WIDTH - ShooterElement.SIZE;
+        }
         for(var c: components){
             c.x -= UNIT_MOVE;
+            if(c.x < 0)
+            {
+                c.x = GameBoard.WIDTH - ShooterElement.SIZE;    
+            }
         }
+        
     }
 
     public boolean canFireMoreBullet(){

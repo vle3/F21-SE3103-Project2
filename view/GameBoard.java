@@ -10,6 +10,7 @@ import javax.swing.Timer;
 import controller.KeyController;
 import controller.TimerListener;
 import model.EnemyComposite;
+import model.GameElement;
 import model.Shooter;
 import model.ShooterElement;
 import model.observerPattern.ShooterObserver;
@@ -17,6 +18,7 @@ import model.observerPattern.ShooterObserver;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.util.ArrayList;
 
 
 public class GameBoard {
@@ -77,11 +79,11 @@ public class GameBoard {
         timer = new Timer(DELAY, timerListener);
         
         enemyComposite = new EnemyComposite();
+
         ShooterObserver observers = new ShooterObserver(this);
         enemyComposite.addListener(observers);
         startButton.addActionListener(event -> {
             shooter = new Shooter(GameBoard.WIDTH / 2, GameBoard.HEIGHT - ShooterElement.SIZE );
-           
             canvas.getGameElements().clear();
             canvas.getGameElements().add(shooter);
             canvas.getGameElements().add(enemyComposite);
