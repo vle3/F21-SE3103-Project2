@@ -64,8 +64,8 @@ public class ShooterObserver implements Observer{
         System.out.println(gameBoard.getCanvas().getGameElements().size());
         shooter.setMoveStrategy(new ShooterMoveDeadStrategy(shooter));
         shooter.setRenderStrategy(new ShooterRenderDeadStrategy(shooter));
-        gameBoard.getTimer().stop();
-        gameBoard.getCanvas().repaint();
+        // gameBoard.getTimer().stop();
+        // gameBoard.getCanvas().repaint();
     }
 
 

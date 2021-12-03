@@ -86,7 +86,10 @@ public class GameBoard {
             shooter = new Shooter(GameBoard.WIDTH / 2, GameBoard.HEIGHT - ShooterElement.SIZE );
             canvas.getGameElements().clear();
             canvas.getGameElements().add(shooter);
+            enemyComposite = new EnemyComposite();
             canvas.getGameElements().add(enemyComposite);
+            enemyComposite.addListener(observers);
+            score = 0;
             timer.start();
         });
         
